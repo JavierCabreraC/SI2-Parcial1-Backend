@@ -1,0 +1,75 @@
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Archivos de Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+
+# Variables de entorno
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Carpetas de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Archivos de cobertura y pruebas
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Archivos de traducción
+*.mo
+*.pot
+
+# Archivos de documentación
+docs/_build/
+docs/locale/
+
+# Archivos estáticos si estás usando collectstatic
+staticfiles/
+
+# Archivos generados de Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Archivos de SageMath
+*.sage.py
