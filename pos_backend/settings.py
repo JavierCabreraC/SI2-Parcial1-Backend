@@ -116,6 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+from datetime import timedelta
+
 # Configuración de REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -126,11 +128,16 @@ REST_FRAMEWORK = {
     ),
 }
 
-from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'TOKEN_TYPE_CLAIM': 'typ',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'sub',
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
