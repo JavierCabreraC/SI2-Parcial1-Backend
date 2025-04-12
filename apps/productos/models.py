@@ -16,7 +16,12 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock_actual = models.IntegerField()
     stock_minimo = models.IntegerField()
-    categoria = models.ForeignKey(Categoria, models.DO_NOTHING, blank=True, null=True)
+    categoria = models.ForeignKey(
+        'Categoria',
+        on_delete=models.SET_NULL,  # Refleja ON DELETE SET NULL
+        blank=True,
+        null=True
+    )
     imagen_url = models.CharField(max_length=255, blank=True, null=True)
     activo = models.BooleanField(blank=True, null=True)
     fecha_creacion = models.DateTimeField(blank=True, null=True)

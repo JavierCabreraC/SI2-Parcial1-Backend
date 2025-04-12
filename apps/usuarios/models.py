@@ -29,19 +29,62 @@ class Personal(models.Model):
 
 
 class Usuario(models.Model):
+    class RolChoices(models.TextChoices):
+        ADMIN = 'admin', 'Admin'
+        CLIENTE = 'cliente', 'Cliente'
+        ALMACENISTA = 'almacenista', 'Almacenista'
+
+    class EstadoChoices(models.TextChoices):
+        ACTIVO = 'activo', 'Activo'
+        INACTIVO = 'inactivo', 'Inactivo'
+
     password = models.CharField(max_length=255)
-    rol = models.TextField()  # Enum: 'admin', 'cliente', 'almacenista'
-    estado = models.TextField()  # Enum: 'activo', 'inactivo'
+    rol = models.CharField(
+        max_length=20,
+        choices=RolChoices.choices,
+        default=RolChoices.CLIENTE
+    )
+    estado = models.CharField(
+        max_length=20,
+        choices=EstadoChoices.choices,
+        default=EstadoChoices.ACTIVO
+    )
     fecha_creacion = models.DateTimeField(blank=True, null=True)
-    cliente = models.OneToOneField(Cliente, models.DO_NOTHING, blank=True, null=True)
-    personal = models.OneToOneField(Personal, models.DO_NOTHING, blank=True, null=True)
+    cliente = models.OneToOneField(
+        'Cliente',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    personal = models.OneToOneField(
+        'Personal',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
 
     class Meta:
         db_table = 'usuario'
 
 
 class TipoAccionBitacora(models.Model):
-    accion = models.TextField()  # Enum: 'Login', 'Logout', etc.
+    class AccionChoices(models.TextChoices):
+        LOGIN = 'Login', 'Login'
+        LOGOUT = 'Logout', 'Logout'
+        CREAR_PRODUCTO = 'CrearProducto', 'Crear Producto'
+        ACTUALIZAR_PRODUCTO = 'ActualizarProducto', 'Actualizar Producto'
+        CREAR_VENTA = 'CrearVenta', 'Crear Venta'
+        CANCELAR_VENTA = 'CancelarVenta', 'Cancelar Venta'
+        ACTUALIZAR_STOCK = 'ActualizarStock', 'Actualizar Stock'
+        CREAR_CLIENTE = 'CrearCliente', 'Crear Cliente'
+        ACTUALIZAR_CLIENTE = 'ActualizarCliente', 'Actualizar Cliente'
+        CREAR_CATEGORIA = 'CrearCategoria', 'Crear Categoría'
+        GENERAR_REPORTE = 'GenerarReporte', 'Generar Reporte'
+
+    accion = models.CharField(
+        max_length=50,
+        choices=AccionChoices.choices
+    )
 
     class Meta:
         db_table = 'tipoaccionbitacora'
@@ -58,10 +101,19 @@ class Bitacora(models.Model):
 
 
 class HistorialBusqueda(models.Model):
-    cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE)
-    termino_busqueda = models.CharField(max_length=255)
-    fecha = models.DateTimeField(auto_now_add=True)
-    convertida_venta = models.BooleanField(default=False)
+    cliente = models.ForeignKey(
+        'Cliente',
+        on_delete=models.CASCADE  # Refleja ON DELETE CASCADE
+    )
+    termino_busqueda = models.CharField(
+        max_length=255  # Refleja VARCHAR(255) NOT NULL
+    )
+    fecha = models.DateTimeField(
+        auto_now_add=True  # Refleja DEFAULT CURRENT_TIMESTAMP
+    )
+    convertida_venta = models.BooleanField(
+        default=False  # Refleja DEFAULT FALSE
+    )
 
     class Meta:
         db_table = 'historialbusqueda'
