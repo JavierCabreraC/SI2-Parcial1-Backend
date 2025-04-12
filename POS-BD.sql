@@ -1,3 +1,5 @@
+-- Base de datos creada en Neon:
+
 CREATE TYPE usuario_rol AS ENUM ('admin', 'cliente', 'almacenista');
 
 CREATE TYPE usuario_estado AS ENUM ('activo', 'inactivo');
