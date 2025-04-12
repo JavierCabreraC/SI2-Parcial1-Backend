@@ -73,3 +73,7 @@ celerybeat.pid
 
 # Archivos de SageMath
 *.sage.py
+
+# scribbles
+script-BD.sql
+
