@@ -470,7 +470,6 @@ CREATE TABLE HistorialBusqueda (
 
 -- Creación de índices para optimizar consultas frecuentes
 
-CREATE INDEX idx_producto_codigo ON Producto(codigo);
 CREATE INDEX idx_producto_nombre ON Producto(nombre);
 CREATE INDEX idx_venta_fecha ON Venta(fecha);
 CREATE INDEX idx_venta_cliente ON Venta(cliente_id);
