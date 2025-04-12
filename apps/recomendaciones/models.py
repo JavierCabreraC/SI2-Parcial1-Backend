@@ -1,5 +1,7 @@
 from django.db import models
 from apps.productos.models import Producto
+from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator
 
 
 
@@ -18,14 +20,14 @@ class ProductoRecomendacion(models.Model):
         max_digits=5,
         decimal_places=4,
         validators=[
-            models.validators.MinValueValidator(0),
-            models.validators.MaxValueValidator(1)
+            MinValueValidator(0),
+            MaxValueValidator(1)
         ]  # Refleja CHECK (score BETWEEN 0 AND 1)
     )
     frecuencia = models.IntegerField(
         default=1,  # Refleja DEFAULT 1
         validators=[
-            models.validators.MinValueValidator(1)
+            MinValueValidator(1)
         ]  # Refleja CHECK (frecuencia > 0)
     )
     ultima_actualizacion = models.DateTimeField(
@@ -41,7 +43,3 @@ class ProductoRecomendacion(models.Model):
                 name='different_products'  # Refleja CHECK (producto_base_id != producto_recomendado_id)
             )
         ]
-
-
-
-

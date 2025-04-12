@@ -1,7 +1,8 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from apps.usuarios.models import Cliente, Usuario
 from apps.productos.models import Producto
-from apps.ventas.models import Venta
+# from apps.ventas.models import Venta
 
 
 
@@ -29,7 +30,7 @@ class Venta(models.Model):
         decimal_places=2,
         default=0,  # Refleja DEFAULT 0
         validators=[
-            models.validators.MinValueValidator(0)
+            MinValueValidator(0)
         ]  # Refleja CHECK (subtotal >= 0)
     )
     descuento = models.DecimalField(
@@ -37,7 +38,7 @@ class Venta(models.Model):
         decimal_places=2,
         default=0,  # Refleja DEFAULT 0
         validators=[
-            models.validators.MinValueValidator(0)
+            MinValueValidator(0)
         ]  # Refleja CHECK (descuento >= 0)
     )
     total = models.DecimalField(
@@ -45,7 +46,7 @@ class Venta(models.Model):
         decimal_places=2,
         default=0,  # Refleja DEFAULT 0
         validators=[
-            models.validators.MinValueValidator(0)
+            MinValueValidator(0)
         ]  # Refleja CHECK (total >= 0)
     )
     estado = models.CharField(
@@ -89,21 +90,21 @@ class DetalleVenta(models.Model):
     )
     cantidad = models.IntegerField(
         validators=[
-            models.validators.MinValueValidator(1)
+            MinValueValidator(1)
         ]  # Refleja CHECK (cantidad > 0)
     )
     precio_unitario = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         validators=[
-            models.validators.MinValueValidator(0)
+            MinValueValidator(0)
         ]  # Refleja CHECK (precio_unitario >= 0)
     )
     subtotal = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         validators=[
-            models.validators.MinValueValidator(0)
+            MinValueValidator(0)
         ]  # Refleja CHECK (subtotal >= 0)
     )
     fue_recomendacion = models.BooleanField(
