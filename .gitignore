@@ -77,3 +77,4 @@ celerybeat.pid
 # scribbles
 script-BD.sql
 
+*.sql
