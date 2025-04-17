@@ -1,10 +1,13 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from .models import Usuario, Cliente, Personal
 from .utils import generate_jwt_token
+from .serializers import UsuarioSerializer, UsuarioCreateSerializer
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAdminUser
 
 
 
@@ -51,4 +54,27 @@ def encontrar_usuario(email):
         return Usuario.objects.get(personal=personal, estado='activo')
 
     raise Usuario.DoesNotExist("Usuario no encontrado")
+
+
+class UsuarioListView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        usuarios = Usuario.objects.all()
+        serializer = UsuarioSerializer(usuarios, many=True)
+        return Response(serializer.data)
+
+class UsuarioCreateView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def post(self, request):
+        serializer = UsuarioCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            # Encriptar la contraseña antes de guardar
+            password = serializer.validated_data.get('password')
+            serializer.validated_data['password'] = make_password(password)
+            
+            usuario = serializer.save()
+            return Response(UsuarioSerializer(usuario).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
