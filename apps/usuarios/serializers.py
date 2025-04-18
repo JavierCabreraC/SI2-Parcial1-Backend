@@ -82,3 +82,25 @@ class UsuarioCreateSerializer(serializers.ModelSerializer):
         usuario.save()
         return usuario
 
+
+class PersonalCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Personal
+        fields = ['nombre_completo', 'numero_ci', 'telefono', 'direccion', 'email', 'fecha_contratacion']
+
+    def validate_email(self, value):
+        if Personal.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Este email ya está en uso por otro personal.")
+        return value
+
+
+class ClienteCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = ['nombre_completo', 'numero_ci', 'telefono', 'direccion', 'email']
+
+    def validate_email(self, value):
+        if value and Cliente.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Este email ya está en uso por otro cliente.")
+        return value
+
