@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
 from urllib.parse import urlparse
+from datetime import timedelta
 
 
 load_dotenv()
@@ -121,12 +121,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-from datetime import timedelta
 
 # Configuración de REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'apps.usuarios.authentication.CustomJWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -141,6 +140,7 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'typ',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'sub',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',)
 }
 
 

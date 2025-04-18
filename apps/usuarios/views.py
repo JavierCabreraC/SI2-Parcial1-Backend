@@ -4,15 +4,16 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password, make_password
 from .models import Usuario, Cliente, Personal
-from .utils import generate_jwt_token
 from .serializers import UsuarioSerializer, UsuarioCreateSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
+from rest_framework_simplejwt.tokens import RefreshToken
+from .permissions import IsAdminUser
 
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])  # Permitir acceso sin autenticación
+@permission_classes([AllowAny])
 def login_view(request):
     email = request.data.get('email')
     password = request.data.get('password')
@@ -28,11 +29,15 @@ def login_view(request):
         if not check_password(password, usuario.password):
             return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        # Generar el token JWT
-        token = generate_jwt_token(usuario.id, usuario.rol)
+        # Usar SimpleJWT para generar tokens
+        refresh = RefreshToken.for_user(usuario)
+        
+        # Agregar claims personalizados
+        refresh['rol'] = usuario.rol
 
         return Response({
-            "access_token": token,
+            "refresh": str(refresh),
+            "access_token": str(refresh.access_token),
             "rol": usuario.rol
         }, status=status.HTTP_200_OK)
 
@@ -57,16 +62,17 @@ def encontrar_usuario(email):
     raise Usuario.DoesNotExist("Usuario no encontrado")
 
 
-
+## GET USUARIOS
 class UsuarioListView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]
-
+    permission_classes = [IsAdminUser]
+    
     def get(self, request):
         usuarios = Usuario.objects.all()
         serializer = UsuarioSerializer(usuarios, many=True)
         return Response(serializer.data)
 
 
+## CREATE USUARIO
 class UsuarioCreateView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
