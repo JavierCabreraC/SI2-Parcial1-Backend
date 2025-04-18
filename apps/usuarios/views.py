@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from .permissions import IsAdminUser
-from .serializers import ClienteCreateSerializer, PersonalCreateSerializer
+from .serializers import ClienteCreateSerializer, PersonalCreateSerializer, ClienteSerializer, PersonalSerializer
 
 
 
@@ -172,4 +172,54 @@ class UsuarioListView(APIView):
         usuarios = Usuario.objects.all()
         serializer = UsuarioSerializer(usuarios, many=True)
         return Response(serializer.data)
+
+
+# Vistas para listar y obtener Personal
+class PersonalListView(APIView):
+    permission_classes = [ IsAdminUser ]
+    
+    def get(self, request):
+        personal = Personal.objects.all()
+        serializer = PersonalSerializer(personal, many=True)
+        return Response(serializer.data)
+
+
+class PersonalDetailView(APIView):
+    permission_classes = [ IsAdminUser ]
+    
+    def get(self, request, pk):
+        try:
+            personal = Personal.objects.get(pk=pk)
+            serializer = PersonalSerializer(personal)
+            return Response(serializer.data)
+        except Personal.DoesNotExist:
+            return Response(
+                {"error": "Personal no encontrado"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+
+# Vistas para listar y obtener Cliente
+class ClienteListView(APIView):
+    permission_classes = [ IsAdminUser ]
+    
+    def get(self, request):
+        clientes = Cliente.objects.all()
+        serializer = ClienteSerializer(clientes, many=True)
+        return Response(serializer.data)
+
+
+class ClienteDetailView(APIView):
+    permission_classes = [ IsAdminUser ]
+    
+    def get(self, request, pk):
+        try:
+            cliente = Cliente.objects.get(pk=pk)
+            serializer = ClienteSerializer(cliente)
+            return Response(serializer.data)
+        except Cliente.DoesNotExist:
+            return Response(
+                {"error": "Cliente no encontrado"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
 
