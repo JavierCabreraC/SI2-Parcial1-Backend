@@ -18,10 +18,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),  # URL del panel de administración de Django
     path('api/usuarios/', include('apps.usuarios.urls')),  # Incluye todas las URLs de la app usuarios
-    # path('api/productos/', include('apps.productos.urls')),
+    path('api/productos/', include('apps.productos.urls')),
     # path('api/ventas/', include('apps.ventas.urls')),
     # path('api/recomendaciones/', include('apps.recomendaciones.urls')),
 ]

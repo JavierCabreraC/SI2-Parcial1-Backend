@@ -21,3 +21,8 @@ class HasAdminRole(permissions.BasePermission):
             return request.auth.get('rol') == 'admin'
         return False
 
+
+class IsAlmacenista(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.rol == 'almacenista'
+

@@ -17,6 +17,7 @@ from urllib.parse import urlparse
 from datetime import timedelta
 
 
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,7 +34,6 @@ SECRET_KEY = 'django-insecure-+y0nt%)=00q$$l-9_slepaaiim-)awd$@2zz%5)jo%j1y@ct-9
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
