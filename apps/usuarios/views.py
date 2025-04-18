@@ -42,6 +42,7 @@ def login_view(request):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
 def encontrar_usuario(email):
     # Buscar en la tabla Cliente
     cliente = Cliente.objects.filter(email=email).first()
@@ -56,6 +57,7 @@ def encontrar_usuario(email):
     raise Usuario.DoesNotExist("Usuario no encontrado")
 
 
+
 class UsuarioListView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
@@ -63,6 +65,7 @@ class UsuarioListView(APIView):
         usuarios = Usuario.objects.all()
         serializer = UsuarioSerializer(usuarios, many=True)
         return Response(serializer.data)
+
 
 class UsuarioCreateView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]

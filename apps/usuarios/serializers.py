@@ -7,19 +7,27 @@ from .models import Usuario, Cliente, Personal
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        attrs['username'] = attrs.get('email')
+        if not attrs['username']:
+            raise serializers.ValidationError("El email es requerido")
+        return super().validate(attrs)
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
 
         # Añadir claims personalizados al token
-        token['rol'] = user.role
+        token['rol'] = user.rol
         # Puedes añadir más información si lo necesitas
         # token['name'] = user.username
 
         return token
 
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
 
 class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,11 +35,13 @@ class ClienteSerializer(serializers.ModelSerializer):
         fields = ['id', 'nombre_completo', 'numero_ci', 'telefono', 'direccion', 'email', 
                  'puntos_acumulados', 'descuentos_disponibles', 'descuentos_utilizados']
 
+
 class PersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Personal
         fields = ['id', 'nombre_completo', 'numero_ci', 'telefono', 'direccion', 'email', 
                  'fecha_contratacion']
+
 
 class UsuarioSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer(required=False)
@@ -41,6 +51,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = ['id', 'rol', 'estado', 'fecha_creacion', 'cliente', 'personal']
         read_only_fields = ['id', 'fecha_creacion']
+
 
 class UsuarioCreateSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer(required=False)
