@@ -28,7 +28,7 @@ class CategoriaCreateView(generics.CreateAPIView):
         categoria = serializer.save(fecha_creacion=timezone.now())
 
         ip = get_client_ip(request)
-        registrar_accion(request.user.id, 'LeerCliente', ip)
+        registrar_accion(request.user.id, 'ConsultarCategoria', ip)
         
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -48,6 +48,9 @@ class ProductoCreateView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'LeerProducto', ip)
         
         # Establecer valores por defecto
         producto = serializer.save(
@@ -145,3 +148,130 @@ class ProductoDeleteView(generics.DestroyAPIView):
             "mensaje": f"El producto '{nombre_producto}' ha sido eliminado correctamente.",
             "id": instance.id
         }, status=status.HTTP_200_OK)
+
+
+## ******************************************
+
+class CategoriaDetailView(generics.RetrieveAPIView):
+    """
+    Vista para obtener los detalles de una categoría específica.
+    """
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    permission_classes = [IsAlmacenista]
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        
+        # Registrar acción en bitácora
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'ConsultarCategoria', ip)
+        
+        return Response(serializer.data)
+
+
+class CategoriaUpdateView(generics.UpdateAPIView):
+    """
+    Vista para actualizar la información de una categoría existente.
+    """
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    permission_classes = [IsAlmacenista]
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        
+        # No actualizamos fecha_creacion, solo guardamos los cambios
+        serializer.save()
+        
+        # Registrar acción en bitácora
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'ActualizarCategoria', ip)
+        
+        return Response(serializer.data)
+    
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+
+class CategoriaDeleteView(generics.DestroyAPIView):
+    """
+    Vista para eliminar una categoría.
+    Comprueba si hay productos asociados antes de eliminar.
+    """
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    permission_classes = [IsAlmacenista]
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        
+        # Verificar si hay productos asociados a esta categoría
+        productos_asociados = Producto.objects.filter(categoria=instance).count()
+        
+        if productos_asociados > 0:
+            return Response({
+                "error": f"No se puede eliminar la categoría. Tiene {productos_asociados} productos asociados.",
+                "mensaje": "Debe reasignar o eliminar los productos antes de eliminar la categoría."
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Guardar el nombre para incluirlo en la respuesta
+        nombre_categoria = instance.nombre
+        
+        # Realizar la eliminación
+        instance.delete()
+        
+        # Registrar acción en bitácora
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'ActualizarCategoria', ip)
+        
+        return Response({
+            "mensaje": f"La categoría '{nombre_categoria}' ha sido eliminada correctamente.",
+            "id": instance.id
+        }, status=status.HTTP_200_OK)
+
+
+## Vista adicional para listar productos por categoría
+class ProductoPorCategoriaView(generics.ListAPIView):
+    """
+    Vista para listar todos los productos de una categoría específica.
+    """
+    serializer_class = ProductoSerializer
+    permission_classes = [IsAlmacenista]
+    
+    def get_queryset(self):
+        categoria_id = self.kwargs['categoria_id']
+        return Producto.objects.filter(categoria_id=categoria_id, activo=True)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        
+        # Si no hay productos en esta categoría
+        if not queryset.exists():
+            try:
+                # Verificar si la categoría existe
+                categoria = Categoria.objects.get(pk=self.kwargs['categoria_id'])
+                return Response({
+                    "mensaje": f"No hay productos activos en la categoría '{categoria.nombre}'.",
+                    "categoria_id": categoria.id,
+                    "productos": []
+                })
+            except Categoria.DoesNotExist:
+                return Response({
+                    "error": "La categoría especificada no existe."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        
+        # Registrar acción en bitácora
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'LeerProducto', ip)
+        
+        return Response(serializer.data)
+
+

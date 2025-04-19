@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (
     CategoriaListView, CategoriaCreateView, ProductoListView, ProductoCreateView, ProductoDetailView,
-    ProductoUpdateView, ProductoDeleteView
+    ProductoUpdateView, ProductoDeleteView, CategoriaDetailView, CategoriaUpdateView, CategoriaDeleteView,
+    ProductoPorCategoriaView
 )
 
 
@@ -11,11 +12,15 @@ urlpatterns = [
     path('categorias/', CategoriaListView.as_view(), name='categoria-list'),
     path('categorias/crear/', CategoriaCreateView.as_view(), name='categoria-create'),
     
-    # Endpoints de productos existentes
+    # Nuevos endpoints de categorías
+    path('categorias/<int:pk>/', CategoriaDetailView.as_view(), name='categoria-detail'),
+    path('categorias/<int:pk>/actualizar/', CategoriaUpdateView.as_view(), name='categoria-update'),
+    path('categorias/<int:pk>/eliminar/', CategoriaDeleteView.as_view(), name='categoria-delete'),
+    path('categorias/<int:categoria_id>/productos/', ProductoPorCategoriaView.as_view(), name='categoria-productos'),
+    
+    # Endpoints de productos (ya implementados)
     path('productos/', ProductoListView.as_view(), name='producto-list'),
     path('productos/crear/', ProductoCreateView.as_view(), name='producto-create'),
-    
-    # Nuevos endpoints de productos para actualizar y eliminar
     path('productos/<int:pk>/', ProductoDetailView.as_view(), name='producto-detail'),
     path('productos/<int:pk>/actualizar/', ProductoUpdateView.as_view(), name='producto-update'),
     path('productos/<int:pk>/eliminar/', ProductoDeleteView.as_view(), name='producto-delete'),
