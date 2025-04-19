@@ -52,14 +52,11 @@ def login_view(request):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-## Helper function to find user by email
 def encontrar_usuario(email):
-    # Buscar en la tabla Cliente
     cliente = Cliente.objects.filter(email=email).first()
     if cliente:
         return Usuario.objects.get(cliente=cliente, estado='activo')
 
-    # Buscar en la tabla Personal
     personal = Personal.objects.filter(email=email).first()
     if personal:
         return Usuario.objects.get(personal=personal, estado='activo')
@@ -76,6 +73,8 @@ def get_client_ip(request):
     return ip
 
 
+## *********************************************************************************************
+## *********************************************************************************************
 ## *********************************************************************************************
 ## CREAR VIEWS:
 
@@ -177,25 +176,31 @@ class UsuarioCreateView(APIView):
 
 
 ## *********************************************************************************************
+## *********************************************************************************************
+## *********************************************************************************************
 ## READ VIEWS:
 
 ## GET USUARIOS
 class UsuarioListView(APIView):
     permission_classes = [IsAdminUser]
-    
+
     def get(self, request):
         usuarios = Usuario.objects.all()
         serializer = UsuarioSerializer(usuarios, many=True)
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'LeerUsuario', ip)
         return Response(serializer.data)
 
 
-# Vistas para listar y obtener Personal
+# GET PERSONAL
 class PersonalListView(APIView):
     permission_classes = [ IsAdminUser ]
     
     def get(self, request):
         personal = Personal.objects.all()
         serializer = PersonalSerializer(personal, many=True)
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'LeerPersonal', ip)
         return Response(serializer.data)
 
 
@@ -214,13 +219,15 @@ class PersonalDetailView(APIView):
             )
 
 
-# Vistas para listar y obtener Cliente
+# GET CLIENTES
 class ClienteListView(APIView):
     permission_classes = [ IsAdminUser ]
     
     def get(self, request):
         clientes = Cliente.objects.all()
         serializer = ClienteSerializer(clientes, many=True)
+        ip = get_client_ip(request)
+        registrar_accion(request.user.id, 'LeerCliente', ip)
         return Response(serializer.data)
 
 
