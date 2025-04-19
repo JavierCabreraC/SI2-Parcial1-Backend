@@ -185,7 +185,7 @@ ALTER TYPE accion_bitacora ADD VALUE 'LeerUsuario';
 ALTER TYPE accion_bitacora ADD VALUE 'ConsultarCategoria';
 ALTER TYPE accion_bitacora ADD VALUE 'ActualizarCategoria';
 ALTER TYPE accion_bitacora ADD VALUE 'CrearPersonal';
-ALTER TYPE accion_bitacora ADD VALUE 'ConsultarPersonal';
+-- ALTER TYPE accion_bitacora ADD VALUE 'ConsultarPersonal'; ## repetido
 ALTER TYPE accion_bitacora ADD VALUE 'ActualizarPersonal';
 ALTER TYPE accion_bitacora ADD VALUE 'ConsultarVenta';
 ALTER TYPE accion_bitacora ADD VALUE 'ConsultarHistorial';

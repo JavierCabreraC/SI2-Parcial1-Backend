@@ -11,12 +11,30 @@ class BitacoraMiddleware:
         self.url_to_action = {
             'token_obtain_pair': 'Login',
             'usuario-list': 'GenerarReporte',  # Ejemplo para listar usuarios
-            'personal-create': 'CrearCliente',  # Ajustar según corresponda
+            'personal-create': 'CrearPersonal',  # Ajustar según corresponda
             'cliente-create': 'CrearCliente',
             # Añadir más mapeos según las URLs y acciones disponibles
+            'usuario-out': 'Logout',
             'cliente-read': 'LeerCliente',
+            'cliente-update': 'ActualizarCliente',
             'personal-read': 'LeerPersonal',
+            'personal-update': 'ActualizarPersonal',
             'usuario-read': 'LeerUsuario',
+            'categoria-create': 'CrearCategoria',
+            'categoria-read': 'ConsultarCategoria',
+            'categoria-update': 'ActualizarCategoria',
+            'producto-create': 'CrearProducto',
+            'producto-update': 'ActualizarProducto',
+            'venta-create': 'CrearVenta',
+            'venta-read': 'ConsultarVenta',
+            'venta-update': 'CancelarVenta',
+            'stock-update': 'ActualizarStock',
+            'historial-read': 'ConsultarHistorial',
+            'notificacion-create': 'CrearNotificacion',
+            'notificacion-read': 'ConsultarNotificacion',
+            'notificacion-update': 'ActualizarNotificacion',
+            'comando-create': 'CrearComandos',
+            'comando-read': 'ConsultarComandos',
         }
         self.jwt_auth = JWTAuthentication()
     
