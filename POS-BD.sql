@@ -173,13 +173,14 @@ CREATE INDEX idx_usuario_cliente ON Usuario(cliente_id);
 CREATE INDEX idx_usuario_personal ON Usuario(personal_id);
 
 
-
+-- ************************************************************************************************
+-- ************************************************************************************************
+-- ************************************************************************************************
 
 
 ALTER TYPE accion_bitacora ADD VALUE 'LeerPersonal';
 ALTER TYPE accion_bitacora ADD VALUE 'LeerCliente';
 ALTER TYPE accion_bitacora ADD VALUE 'LeerUsuario';
-
 
 
 ALTER TYPE accion_bitacora ADD VALUE 'ConsultarCategoria';
@@ -209,3 +210,11 @@ INSERT INTO TipoAccionBitacora (accion) VALUES
     ('ActualizarNotificacion'),
     ('CrearComandos'),
     ('ConsultarComandos');
+
+
+ALTER TYPE accion_bitacora ADD VALUE 'LeerProducto';
+INSERT INTO TipoAccionBitacora(accion) VALUES ('LeerProducto');
+
+
+ALTER TYPE accion_bitacora ADD VALUE 'EliminarProducto';
+INSERT INTO TipoAccionBitacora(accion) VALUES ('EliminarProducto');
