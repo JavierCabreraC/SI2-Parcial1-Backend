@@ -1,6 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.utils import timezone
+from apps.usuarios.models import Notificacion
+from apps.usuarios.views import get_client_ip
 from .models import Categoria, Producto
 from .serializers import CategoriaSerializer, ProductoSerializer
 from apps.usuarios.permissions import IsAlmacenista
