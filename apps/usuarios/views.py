@@ -1,15 +1,16 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth.hashers import check_password, make_password
-from .models import Usuario, Cliente, Personal
-from .serializers import UsuarioSerializer, UsuarioCreateSerializer
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import check_password, make_password
+
+from .utils import registrar_accion
 from .permissions import IsAdminUser
-from .serializers import ClienteCreateSerializer, PersonalCreateSerializer, ClienteSerializer, PersonalSerializer
+from .models import Usuario, Cliente, Personal
+from .serializers import ClienteCreateSerializer, PersonalCreateSerializer, ClienteSerializer, PersonalSerializer, UsuarioSerializer, UsuarioCreateSerializer
 
 
 
@@ -37,6 +38,9 @@ def login_view(request):
         # Agregar claims personalizados
         refresh['rol'] = usuario.rol
 
+        ip = get_client_ip(request)
+        registrar_accion(usuario.id, 'Login', ip)
+
         return Response({
             "refresh": str(refresh),
             "access_token": str(refresh.access_token),
@@ -62,6 +66,15 @@ def encontrar_usuario(email):
         return Usuario.objects.get(personal=personal, estado='activo')
 
     raise Usuario.DoesNotExist("Usuario no encontrado")
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR', '0.0.0.0')
+    return ip
 
 
 ## *********************************************************************************************
