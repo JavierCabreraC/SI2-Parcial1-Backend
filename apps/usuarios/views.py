@@ -1,9 +1,8 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password, make_password
 
@@ -139,6 +138,9 @@ class ClienteCreateView(APIView):
                 
                 usuario = Usuario.objects.create(**usuario_data)
             
+            ip = get_client_ip(request)
+            registrar_accion(request.user.id, 'CrearCliente', ip)
+
             # Devolver datos del cliente creado
             response_data = {
                 'mensaje': 'Cliente creado exitosamente',
