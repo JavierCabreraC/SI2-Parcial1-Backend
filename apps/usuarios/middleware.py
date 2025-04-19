@@ -14,6 +14,9 @@ class BitacoraMiddleware:
             'personal-create': 'CrearCliente',  # Ajustar según corresponda
             'cliente-create': 'CrearCliente',
             # Añadir más mapeos según las URLs y acciones disponibles
+            'cliente-read': 'LeerCliente',
+            'personal-read': 'LeerPersonal',
+            'usuario-read': 'LeerUsuario',
         }
         self.jwt_auth = JWTAuthentication()
     

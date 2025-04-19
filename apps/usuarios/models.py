@@ -81,21 +81,24 @@ class TipoAccionBitacora(models.Model):
         CREAR_CATEGORIA = 'CrearCategoria', 'Crear Categoría'
         GENERAR_REPORTE = 'GenerarReporte', 'Generar Reporte'
         # Nuevas acciones
-        LEER_PRODUCTO = 'ConsultarProducto', 'Consultar Producto'
-        LEER_CLIENTE = 'ConsultarCliente', 'Consultar Cliente'
-        LEER_USUARIOS = 'ConsultarUsuarios', 'Consultar Usuarios'
-        LEER_CATEGORIA = 'ConsultarCategoria', 'Consultar Categoria'
-        ACTUALIZAR_CATEGORIA = 'ActualizarCategoria', 'Actualizar Categoría'
-        CREAR_PERSONAL = 'CrearPersonal', 'Crear Personal'
-        LEER_PERSONAL = 'ConsultarPersonal', 'Consultar Personal'
-        ACTUALIZAR_PERSONAL = 'ActualizarPersonal', 'Actualizar Personal'
-        LEER_VENTA = 'ConsultarVenta', 'Consultar Venta'
-        LEER_HISTORIAL = 'ConsultarHistorial', 'Consultar Historial'
-        CREAR_NOTIFICACION = 'CrearNotificacion', 'Crear Notificacion'
-        LEER_NOTIFICACION = 'ConsultarNotificacion', 'Consultar Notificacion'
-        ACTUALIZAR_NOTIFICACION = 'ActualizarNotificacion', 'Actualizar Notificacion'
-        CREAR_COMANDOS = 'CrearComandos', 'Crear Comandos'	
-        LEER_COMANDOS = 'ConsultarComandos', 'Consultar Comandos'
+
+        ## INNECESARIAS. SE HARÁ EL REGISTRO A MANO
+
+        # LEER_PRODUCTO = 'ConsultarProducto', 'Consultar Producto'
+        # LEER_CLIENTE = 'ConsultarCliente', 'Consultar Cliente'
+        # LEER_USUARIOS = 'ConsultarUsuarios', 'Consultar Usuarios'
+        # LEER_CATEGORIA = 'ConsultarCategoria', 'Consultar Categoria'
+        # ACTUALIZAR_CATEGORIA = 'ActualizarCategoria', 'Actualizar Categoría'
+        # CREAR_PERSONAL = 'CrearPersonal', 'Crear Personal'
+        # LEER_PERSONAL = 'ConsultarPersonal', 'Consultar Personal'
+        # ACTUALIZAR_PERSONAL = 'ActualizarPersonal', 'Actualizar Personal'
+        # LEER_VENTA = 'ConsultarVenta', 'Consultar Venta'
+        # LEER_HISTORIAL = 'ConsultarHistorial', 'Consultar Historial'
+        # CREAR_NOTIFICACION = 'CrearNotificacion', 'Crear Notificacion'
+        # LEER_NOTIFICACION = 'ConsultarNotificacion', 'Consultar Notificacion'
+        # ACTUALIZAR_NOTIFICACION = 'ActualizarNotificacion', 'Actualizar Notificacion'
+        # CREAR_COMANDOS = 'CrearComandos', 'Crear Comandos'	
+        # LEER_COMANDOS = 'ConsultarComandos', 'Consultar Comandos'
 
 
     accion = models.CharField(

@@ -172,3 +172,40 @@ CREATE INDEX idx_bitacora_tipo_accion ON Bitacora(tipo_accion_id);
 CREATE INDEX idx_usuario_cliente ON Usuario(cliente_id);
 CREATE INDEX idx_usuario_personal ON Usuario(personal_id);
 
+
+
+
+
+ALTER TYPE accion_bitacora ADD VALUE 'LeerPersonal';
+ALTER TYPE accion_bitacora ADD VALUE 'LeerCliente';
+ALTER TYPE accion_bitacora ADD VALUE 'LeerUsuario';
+
+
+
+ALTER TYPE accion_bitacora ADD VALUE 'ConsultarCategoria';
+ALTER TYPE accion_bitacora ADD VALUE 'ActualizarCategoria';
+ALTER TYPE accion_bitacora ADD VALUE 'CrearPersonal';
+ALTER TYPE accion_bitacora ADD VALUE 'ConsultarPersonal';
+ALTER TYPE accion_bitacora ADD VALUE 'ActualizarPersonal';
+ALTER TYPE accion_bitacora ADD VALUE 'ConsultarVenta';
+ALTER TYPE accion_bitacora ADD VALUE 'ConsultarHistorial';
+ALTER TYPE accion_bitacora ADD VALUE 'CrearNotificacion';
+ALTER TYPE accion_bitacora ADD VALUE 'ConsultarNotificacion';
+ALTER TYPE accion_bitacora ADD VALUE 'ActualizarNotificacion';
+ALTER TYPE accion_bitacora ADD VALUE 'CrearComandos';
+ALTER TYPE accion_bitacora ADD VALUE 'ConsultarComandos';
+
+
+INSERT INTO TipoAccionBitacora (accion) VALUES 
+    ('ConsultarCategoria'),
+    ('ActualizarCategoria'),
+    ('CrearPersonal'),
+    ('ConsultarPersonal'),
+    ('ActualizarPersonal'),
+    ('ConsultarVenta'),
+    ('ConsultarHistorial'),
+    ('CrearNotificacion'),
+    ('ConsultarNotificacion'),
+    ('ActualizarNotificacion'),
+    ('CrearComandos'),
+    ('ConsultarComandos');
