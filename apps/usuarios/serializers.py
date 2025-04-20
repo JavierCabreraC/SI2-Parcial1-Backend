@@ -53,6 +53,12 @@ class UsuarioSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'fecha_creacion']
 
 
+class UsuarioSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['id', 'rol', 'estado', 'fecha_creacion']
+
+
 class UsuarioCreateSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer(required=False)
     personal = PersonalSerializer(required=False)

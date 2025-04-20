@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from .utils import registrar_accion
 from .permissions import IsAdminUser
 from .models import Usuario, Cliente, Personal
-from .serializers import ClienteCreateSerializer, PersonalCreateSerializer, ClienteSerializer, PersonalSerializer, UsuarioSerializer, UsuarioCreateSerializer
+from .serializers import ClienteCreateSerializer, PersonalCreateSerializer, ClienteSerializer, PersonalSerializer, UsuarioSerializer, UsuarioCreateSerializer, UsuarioSimpleSerializer
 
 
 
@@ -196,7 +196,7 @@ class UsuarioListView(APIView):
 
     def get(self, request):
         usuarios = Usuario.objects.all()
-        serializer = UsuarioSerializer(usuarios, many=True)
+        serializer = UsuarioSimpleSerializer(usuarios, many=True)  # Cambiar al nuevo serializer
         ip = get_client_ip(request)
         registrar_accion(request.user.id, 'LeerUsuario', ip)
         return Response(serializer.data)
