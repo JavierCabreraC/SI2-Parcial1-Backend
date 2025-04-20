@@ -51,6 +51,17 @@ def login_view(request):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def logout_view(request):
+    """
+    Endpoint para realizar el logout.
+    """
+    ip = get_client_ip(request)
+    registrar_accion(request.user.id, 'Logout', ip)
+    return Response({"Respuesta": "Cierre de sesión exitoso"}, status=status.HTTP_200_OK)
+
+
 def encontrar_usuario(email):
     cliente = Cliente.objects.filter(email=email).first()
     if cliente:
