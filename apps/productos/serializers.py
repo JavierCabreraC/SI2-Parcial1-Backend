@@ -20,3 +20,8 @@ class ProductoSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['fecha_creacion', 'fecha_modificacion']
 
+
+class ProductoSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = ['id', 'nombre', 'precio', 'stock_actual', 'categoria', 'activo']

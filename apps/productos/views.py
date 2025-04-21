@@ -4,7 +4,7 @@ from django.utils import timezone
 from apps.usuarios.models import Notificacion
 from apps.usuarios.views import get_client_ip
 from .models import Categoria, Producto
-from .serializers import CategoriaSerializer, ProductoSerializer
+from .serializers import CategoriaSerializer, ProductoSerializer, ProductoSimpleSerializer
 from apps.usuarios.permissions import IsAlmacenista
 from apps.usuarios.utils import registrar_accion
 
@@ -38,8 +38,8 @@ class CategoriaCreateView(generics.CreateAPIView):
 
 class ProductoListView(generics.ListAPIView):
     queryset = Producto.objects.all()
-    serializer_class = ProductoSerializer
-    permission_classes = [ IsAlmacenista ]
+    serializer_class = ProductoSimpleSerializer  # Cambiar al nuevo serializer
+    permission_classes = [IsAlmacenista]
 
 
 class ProductoCreateView(generics.CreateAPIView):
