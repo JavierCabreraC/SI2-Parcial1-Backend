@@ -22,6 +22,8 @@ class ProductoSerializer(serializers.ModelSerializer):
 
 
 class ProductoSimpleSerializer(serializers.ModelSerializer):
+    categoria = serializers.CharField(source='categoria.nombre')  # Mostrar el nombre de la categoría
+
     class Meta:
         model = Producto
-        fields = ['id', 'nombre', 'precio', 'stock_actual', 'categoria', 'activo']
+        fields = ['id', 'nombre', 'precio', 'stock_actual', 'categoria']  # Excluir el campo 'activo'
