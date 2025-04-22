@@ -1,5 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from django.db import connection
+from rest_framework.views import APIView
 from django.utils import timezone
 from apps.usuarios.models import Notificacion
 from apps.usuarios.views import get_client_ip
@@ -7,6 +9,7 @@ from .models import Categoria, Producto
 from .serializers import CategoriaSerializer, ProductoSerializer, ProductoSimpleSerializer
 from apps.usuarios.permissions import IsAlmacenista
 from apps.usuarios.utils import registrar_accion
+from apps.productos import models
 
 
 
@@ -276,4 +279,56 @@ class ProductoPorCategoriaView(generics.ListAPIView):
         
         return Response(serializer.data)
 
+
+class ReporteBajoStockView(APIView):
+    """
+    Vista para generar un reporte de productos con bajo stock utilizando SQL puro.
+    """
+    permission_classes = [IsAlmacenista]
+
+    def get(self, request):
+        # Obtener el parámetro opcional de categoría
+        categoria_id = request.query_params.get('categoria_id', None)
+
+        # Construir la consulta SQL
+        sql = """
+            SELECT 
+                p.id, 
+                p.nombre, 
+                p.stock_actual, 
+                p.stock_minimo, 
+                c.nombre AS categoria
+            FROM Producto p
+            LEFT JOIN Categoria c ON p.categoria_id = c.id
+            WHERE p.stock_actual < p.stock_minimo AND p.activo = TRUE
+        """
+        params = []
+
+        # Agregar filtro por categoría si se especifica
+        if categoria_id:
+            sql += " AND p.categoria_id = %s"
+            params.append(categoria_id)
+
+        # Ejecutar la consulta
+        with connection.cursor() as cursor:
+            cursor.execute(sql, params)
+            rows = cursor.fetchall()
+
+        # Formatear los resultados
+        productos = [
+            {
+                "id": row[0],
+                "nombre": row[1],
+                "stock_actual": row[2],
+                "stock_minimo": row[3],
+                "categoria": row[4],
+            }
+            for row in rows
+        ]
+
+        # Si no hay productos con bajo stock
+        if not productos:
+            return Response({"mensaje": "No hay productos con bajo stock."}, status=200)
+
+        return Response(productos, status=200)
 
