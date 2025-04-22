@@ -6,7 +6,6 @@ from .views import (
 )
 
 
-
 urlpatterns = [
     # Endpoints de categorías existentes
     path('categorias/', CategoriaListView.as_view(), name='categoria-list'),
