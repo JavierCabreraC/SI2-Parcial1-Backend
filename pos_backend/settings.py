@@ -85,6 +85,7 @@ TEMPLATES = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://tienda-pos.vercel.app",  # Agregar este dominio
 ]
 
 CORS_ALLOW_CREDENTIALS = True
