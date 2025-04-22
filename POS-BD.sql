@@ -218,3 +218,69 @@ INSERT INTO TipoAccionBitacora(accion) VALUES ('LeerProducto');
 
 ALTER TYPE accion_bitacora ADD VALUE 'EliminarProducto';
 INSERT INTO TipoAccionBitacora(accion) VALUES ('EliminarProducto');
+
+
+
+
+-- Inserción de Productos
+INSERT INTO Producto (nombre, precio, stock_actual, stock_minimo, categoria_id, activo)
+VALUES
+    -- Categoría 1: Computadoras
+    ('Laptop HP Pavilion 15.6"', 3799.99, 15, 3, 3, TRUE),
+    ('Laptop Dell Inspiron 14"', 3499.99, 12, 3, 3, TRUE),
+    ('MacBook Air 13" M2', 5999.99, 8, 2, 3, TRUE),
+    ('PC Gamer Asus ROG', 6499.99, 5, 2, 3, TRUE),
+    ('Computadora de Escritorio Dell Optiplex', 2999.99, 10, 3, 3, TRUE),
+    ('Mini PC Intel NUC', 2199.99, 7, 2, 3, TRUE),
+    ('Laptop Lenovo ThinkPad X1', 4799.99, 6, 2, 3, TRUE),
+    ('All-in-One HP 24"', 3299.99, 8, 2, 3, TRUE),
+    ('Chromebook Acer 14"', 1799.99, 15, 5, 3, TRUE),
+    ('Monitor Samsung 27" Curvo', 1299.99, 20, 5, 3, TRUE),
+    
+    -- Categoría 2: Electrodomésticos Cocina
+    ('Refrigerador Samsung Side by Side 26 pies', 7999.99, 5, 2, 4, TRUE),
+    ('Cocina a Gas Mabe 6 Hornillas', 1899.99, 8, 4, 4, TRUE),
+    ('Microondas LG 1.5 pies', 699.99, 15, 3, 4, TRUE),
+    ('Licuadora Oster 3 velocidades', 399.99, 25, 5, 4, TRUE),
+    ('Batidora KitchenAid Stand Mixer', 1499.99, 10, 3, 4, TRUE),
+    ('Cafetera Nespresso Essenza', 599.99, 18, 5, 4, TRUE),
+    ('Tostadora Black & Decker 2 rebanadas', 149.99, 30, 8, 4, TRUE),
+    ('Freidora de Aire Oster 4L', 499.99, 20, 5, 4, TRUE),
+    ('Extractor de Jugos Philips', 349.99, 12, 4, 4, TRUE),
+    ('Procesador de Alimentos Bosch', 799.99, 8, 3, 4, TRUE),
+    
+    -- Categoría 3: Electrodomésticos Lavandería
+    ('Lavadora Samsung 18kg Carga Superior', 2999.99, 7, 2, 5, TRUE),
+    ('Secadora Eléctrica Whirlpool 16kg', 2499.99, 6, 2, 5, TRUE),
+    ('Lavaseca LG 12kg', 3799.99, 5, 2, 5, TRUE),
+    ('Plancha a Vapor Black & Decker', 129.99, 25, 8, 5, TRUE),
+    ('Aspiradora Robot Xiaomi', 899.99, 12, 3, 5, TRUE),
+    ('Centro de Planchado Tefal', 599.99, 10, 3, 5, TRUE),
+    ('Aspiradora Vertical Dyson V11', 1999.99, 8, 2, 5, TRUE),
+    ('Plancha de Pelo Remington', 249.99, 15, 5, 5, TRUE),
+    ('Secador de Pelo Philips', 199.99, 20, 5, 5, TRUE),
+    ('Máquina de Coser Singer', 699.99, 8, 2, 5, TRUE),
+    
+    -- Categoría 4: Audio y Video
+    ('Smart TV Samsung 65" 4K QLED', 5499.99, 10, 2, 6, TRUE),
+    ('Smart TV LG 55" OLED', 4999.99, 8, 2, 6, TRUE),
+    ('Barra de Sonido Samsung 5.1', 899.99, 12, 3, 6, TRUE),
+    ('Home Theater Sony 7.1', 1799.99, 6, 2, 6, TRUE),
+    ('Proyector Epson FullHD', 2299.99, 5, 2, 6, TRUE),
+    ('Chromecast Google TV', 249.99, 25, 8, 6, TRUE),
+    ('Roku Streaming Stick 4K', 279.99, 20, 5, 6, TRUE),
+    ('Parlante Bluetooth JBL Charge 5', 599.99, 18, 5, 6, TRUE),
+    ('Audífonos Sony WH-1000XM4', 1499.99, 15, 3, 6, TRUE),
+    ('Reproductor Blu-ray Sony', 399.99, 10, 3, 6, TRUE),
+    
+    -- Categoría 5: Accesorios Tecnológicos
+    ('Mouse Inalámbrico Logitech', 149.99, 30, 10, 7, TRUE),
+    ('Teclado Mecánico Corsair', 399.99, 20, 5, 7, TRUE),
+    ('Disco Duro Externo Seagate 2TB', 349.99, 25, 8, 7, TRUE),
+    ('Memoria USB SanDisk 128GB', 79.99, 50, 15, 7, TRUE),
+    ('Webcam Logitech HD', 249.99, 20, 5, 7, TRUE),
+    ('Router WiFi TP-Link Mesh', 499.99, 15, 5, 7, TRUE),
+    ('Powerbank Anker 20000mAh', 199.99, 30, 10, 7, TRUE),
+    ('Cable HDMI 4K 2m', 59.99, 40, 15, 7, TRUE),
+    ('Adaptador USB-C a HDMI', 89.99, 35, 10, 7, TRUE),
+    ('Audífonos AirPods Pro', 999.99, 15, 3, 7, TRUE);
